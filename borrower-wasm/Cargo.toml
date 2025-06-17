@@ -1,0 +1,18 @@
+[package]
+name = "borrower-wasm"
+version = "0.1.19"
+authors = ["Martin Habovstiak <martin.habovstiak@gmail.com>"]
+edition = "2018"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+firefish-core = { path = ".." }
+bitcoin = { version = "0.32.0", features = ["rand"] }
+wasm-bindgen = "0.2.78"
+base64 = "0.13.1"
+secp256k1 = { version = "0.29.0", features = ["global-context"] }
+bip21 = "0.5.0"
+console_error_panic_hook = "0.1.7"
+js-sys = "0.3.55"

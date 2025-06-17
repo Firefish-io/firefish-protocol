@@ -1,0 +1,23 @@
+on: [pull_request]
+
+name: Upgrade test
+
+jobs:
+  Upgrade-test:
+    strategy:
+      matrix:
+        upgrade_steps: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    name: Upgrade test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Setup CADR
+        run: sudo apt-get install gpg && gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys 3D9E81D3CA76CDCBE768C4B4DC6B4F8E60B8CF4C && gpg --export 3D9E81D3CA76CDCBE768C4B4DC6B4F8E60B8CF4C | sudo apt-key add - && echo 'deb https://deb.ln-ask.me/beta buster common local' | sudo tee /etc/apt/sources.list.d/cryptoanarchy.list > /dev/null && sudo apt-get update
+      - name: Install bitcoind and bitcoin-cli
+        run: sudo apt-get install bitcoin-regtest bitcoin-cli
+      - name: Run the test
+        run: ./test_upgrade.sh --expected-upgrade-step-count 10 --from ${{ github.event.pull_request.base.sha }} --bitcoin-cli "sudo bitcoin-cli" "${{ matrix.upgrade_steps }}"
