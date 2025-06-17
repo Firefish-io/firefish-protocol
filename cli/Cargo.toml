@@ -1,0 +1,16 @@
+[package]
+name = "firefish-cli"
+version = "0.1.0"
+authors = ["Martin Habovstiak <martin.habovstiak@gmail.com>"]
+rust-version = "1.63.0"
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+firefish-core = { path = ".." }
+base64 = "0.21.3"
+chrono = "0.4.23"
+bitcoin = { version = "0.32.0", features = ["rand"] }
+bip39 = "2.0"
+secp256k1 = { version = "0.29.0", features = ["global-context"] }

@@ -1,0 +1,19 @@
+name: New Issue
+description: An idea for an improvement, a suggestion, a bug fix, or a new feature
+body:
+  - type: textarea
+    id: issue-description
+    attributes:
+      label: Issue description
+      description: Please provide a clear and detailed description of your suggestion.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: icla
+    attributes:
+      label: Firefish Individual Contributor License Agreement
+      description: Our project requires all contributions to be licensed under our CLA. Please confirm your agreement below.
+      options:
+        - label: I have read and agree that my contribution is licensed to Firefish under the terms of the [Contributor License Agreement (CLA)](https://github.com/Firefish-io/firefish-protocol/blob/master/legal/ICLA.md).
+          required: true

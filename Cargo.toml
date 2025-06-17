@@ -1,0 +1,31 @@
+[package]
+name = "firefish-core"
+version = "0.1.0"
+authors = ["Martin Habovstiak <martin.habovstiak@gmail.com>"]
+rust-version = "1.63.0"
+edition = "2018"
+
+[workspace]
+members = ["cli", "borrower-wasm", "contrib/wasm-commit"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[profile.release]
+lto = true
+
+[features]
+serde = ["bitcoin/serde"]
+
+[dependencies]
+bitcoin = { version = "0.32.0", features = ["rand"] }
+secp256k1 = { version = "0.29.0", features = ["global-context", "rand-std"] }
+rand = { version = "0.8.2", features = ["std", "std_rng"] }
+hex_lit = "0.1"
+slog = "2.7.0"
+
+[target.'cfg(target = "wasm32-unknown-unknown")'.dependencies]
+getrandom = { version = "0.2.0", features = ["js"] }
+
+[dev-dependencies]
+quickcheck = "1.0.3"
+base64 = "0.13.1"
