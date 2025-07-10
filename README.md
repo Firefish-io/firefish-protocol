@@ -74,3 +74,87 @@ Proceed running `escrow liquidation` as you would run `repayment` or `default` b
 The library API is unstable and definitely going to change.
 The plan is to have a more stable version that encapsulates the instability into a simple API - just exchanging messages, configuration and state transitions.
 This is already mostly done in a different branch but not yet properly tested and not fuly stable.
+
+## Building with Nix
+
+You can build the borrower with a Nix flake. This provides deterministic builds and ensures that anyone can verify
+that our published binaries match the source code.
+
+### Prerequisites
+
+You only need Nix installed with flakes enabled. Nix manages the entire build environment
+
+Install Nix like this:
+```bash
+curl -L https://nixos.org/nix/install | sh
+
+```
+
+Rmember to enable flakes (add to ~/.config/nix/nix.conf or /etc/nix/nix.conf)
+```
+experimental-features = nix-command flakes
+```
+
+On platfroms other than Linux, sandbox may not be enabled by default, so enable it in the same config:
+``` nix
+sandbox = true
+```
+
+### Building
+
+```bash
+nix build .#cli
+nix build .#borrower-wasm
+
+
+# build everything
+nix build
+```
+
+
+The binaries will be in `./result`. Nix aggressively hashes and caches everything, so repeat builds from the same commit
+will be nearly instant. If you find your `/nix` folder is too large, run `nix-collect-garbage` to remove unused cache.
+
+
+### Verifying Published Binaries
+
+To verify that the published WASM binary matches the source code:
+
+```bash
+nix run .#verify-wasm
+```
+
+This will build the WASM module locally and compare its SHA-256 hash with the one published on the website.
+
+The website URL is configured in `flake.nix`. If you want, you can compare with a locally downloaded binary:
+
+``` bash
+nix run .#verify-wasm -- path-to-local-borrower.wasm
+```
+
+### Development with Nix
+
+You can use the Nix development shell which includes all necessary tools:
+
+```bash
+# Enter development shell
+nix develop
+
+# Or use direnv for automatic environment loading into your environment
+echo "use flake" > .envrc
+direnv allow
+```
+
+The development shell includes:
+
+- Rust toolchain (from rust-toolchain.toml)
+- cargo-watch for auto-recompilation
+- cargo-expand for macro debugging
+- wasm-pack and wasm-bindgen-cli
+- All required system dependencies
+
+### Misc
+
+- All Nix builds are release builds by default
+- The Rust version is pinned in `rust-toolchain.toml` for reproducibility
+- If you're using VS Code or a good editor like Emacs, install the direnv extension for seamless integration

@@ -1,0 +1,20 @@
+name: Nix
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - name: Build packages
+        run: |
+          nix build .#core
+          nix build .#cli
+          nix build .#wasm-commit
+          nix build .#borrower-wasm
+          nix run .#wasm-commit -- --read result/lib/firefish_borrower_wasm_bg.wasm
