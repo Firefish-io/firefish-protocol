@@ -6,7 +6,7 @@ rust-version = "1.63.0"
 edition = "2018"
 
 [workspace]
-members = ["cli", "borrower-wasm"]
+members = ["cli", "borrower-wasm", "contrib/wasm-commit"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

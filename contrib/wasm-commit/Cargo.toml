@@ -1,0 +1,7 @@
+[package]
+name = "wasm-commit"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+wasm-metadata = "0.235"
