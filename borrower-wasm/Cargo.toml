@@ -1,5 +1,5 @@
 [package]
-name = "borrower-wasm"
+name = "firefish-borrower-wasm"
 version = "0.1.19"
 authors = ["Martin Habovstiak <martin.habovstiak@gmail.com>"]
 rust-version = "1.63.0"

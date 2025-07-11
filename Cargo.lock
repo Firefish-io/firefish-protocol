@@ -142,20 +142,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "borrower-wasm"
-version = "0.1.19"
-dependencies = [
- "base64 0.13.1",
- "bip21",
- "bitcoin",
- "console_error_panic_hook",
- "firefish-core",
- "js-sys",
- "secp256k1",
- "wasm-bindgen",
-]
-
-[[package]]
 name = "bumpalo"
 version = "3.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -266,6 +252,20 @@ checksum = "a19187fea3ac7e84da7dacf48de0c45d63c6a76f9490dae389aead16c243fce3"
 dependencies = [
  "log",
  "regex",
+]
+
+[[package]]
+name = "firefish-borrower-wasm"
+version = "0.1.19"
+dependencies = [
+ "base64 0.13.1",
+ "bip21",
+ "bitcoin",
+ "console_error_panic_hook",
+ "firefish-core",
+ "js-sys",
+ "secp256k1",
+ "wasm-bindgen",
 ]
 
 [[package]]
