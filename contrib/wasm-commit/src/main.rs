@@ -71,6 +71,7 @@ fn main() {
 
         let mut add = wasm_metadata::AddMetadata::default();
         add.revision = wasm_metadata::AddMetadataField::Set(wasm_metadata::Revision::new(revision));
+        add.name = wasm_metadata::AddMetadataField::Set("firefish-borrower-wasm".to_owned());
         let new = add.to_wasm(&bytes).unwrap_or_else(|error| {
             eprintln!("Failed to update the WASM module: {}", error);
             std::process::exit(1);
