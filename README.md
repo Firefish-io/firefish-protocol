@@ -4,7 +4,7 @@ This library implements the main logic of the Firefish smart contract: creating 
 It also contains serialization code, an example CLI application and WASM bindings for the borrower.
 
 **Warning: this is old code and will be replaced!**
-This code is only provided for review and auditing, not for developmnet.
+This code is only provided for review and auditing, not for development.
 We have some changes prepared that will improve the development use case (while breaking the API of this one).
 If you're interested in development in any way don't hesitate to contact us.
 
@@ -29,13 +29,13 @@ You will get a transaction that you can broadcast using `bitcoin-cli -chain=regt
 The script uses a fixed insane fee rate of 1000 sat/vb because regtest requires higher fees by default...
 
 *Note that the script creates temporary files which it doesn't clean!*
-This is intetnional to allow inspection.
+This is intentional to allow inspection.
 They aren't huge anyway but be careful about running it a lot.
 
 Also you're free to change any of the hard-coded addresses in the script.
 Interestingly they don't require private keys for the *contract* to work.
 
-If you want to explore the raw CLI commands and try it out manually (maybe simulating real seup with more machines) reading the script should be good starting point.
+If you want to explore the raw CLI commands and try it out manually (maybe simulating real setup with more machines) reading the script should be good starting point.
 More documentation will come eventually.
 
 ### Cancelation testing
@@ -53,7 +53,7 @@ It will give you the cancelation transaction.
 Note that you will need to mine enough blocks after confirming the funding transaction to get cancelation to confirm.
 If you used the script unchanged the relative lock time is 42 blocks.
 So by running `bitcoin-cli generatetoaddress 42 SOME_ADDRESS` you will enable inclusion of cancelation transaction.
-Use `secndrawtransaction` as usual.
+Use `sendrawtransaction` as usual.
 
 ### Finalization testing
 
@@ -73,7 +73,7 @@ Proceed running `escrow liquidation` as you would run `repayment` or `default` b
 
 The library API is unstable and definitely going to change.
 The plan is to have a more stable version that encapsulates the instability into a simple API - just exchanging messages, configuration and state transitions.
-This is already mostly done in a different branch but not yet properly tested and not fuly stable.
+This is already mostly done in a different branch but not yet properly tested and not fully stable.
 
 ## Building with Nix
 
@@ -90,12 +90,12 @@ curl -L https://nixos.org/nix/install | sh
 
 ```
 
-Rmember to enable flakes (add to ~/.config/nix/nix.conf or /etc/nix/nix.conf)
+Remember to enable flakes (add to ~/.config/nix/nix.conf or /etc/nix/nix.conf)
 ```
 experimental-features = nix-command flakes
 ```
 
-On platfroms other than Linux, sandbox may not be enabled by default, so enable it in the same config:
+On platforms other than Linux, sandbox may not be enabled by default, so enable it in the same config:
 ``` nix
 sandbox = true
 ```
