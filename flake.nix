@@ -30,13 +30,23 @@
 
         craneLib = (crane.mkLib pkgs).overrideToolchain rustToolchain;
 
+        # Use Clang instead of default GCC as a compiler, otherwise the
+        # secp2561k is not linked properly into the final wasm file.
+        stdenv = pkgs: pkgs.clangStdenv;
+
         commonArgs = {
+          inherit stdenv;
+          strictDeps = true;
+
           src = craneLib.cleanCargoSource (craneLib.path ./.);
-          buildInputs = with pkgs; [
-            secp256k1
-          ];
           nativeBuildInputs = with pkgs; [
             pkg-config
+
+            # Do not use Nix-specific clang/linker wrappers with hardening
+            # options.
+            # - https://nixos.org/manual/nixpkgs/stable/#sec-hardening-in-nixpkgs
+            pkgs.llvmPackages_21.clang-unwrapped
+            pkgs.llvmPackages_21.bintools-unwrapped
           ];
         };
 
@@ -78,7 +88,7 @@
         };
 
         wasmArtifacts = craneLib.buildDepsOnly (commonArgs // {
-          cargoExtraArgs = "--target wasm32-unknown-unknown";
+          CARGO_BUILD_TARGET = "wasm32-unknown-unknown";
         });
 
         # Build and process WASM modules
@@ -90,7 +100,8 @@
               inherit wasmArtifacts;
               pname = name;
               doCheck = false;
-              cargoExtraArgs = "--package ${crateName} --target wasm32-unknown-unknown";
+              cargoExtraArgs = "--package ${crateName}";
+              CARGO_BUILD_TARGET = "wasm32-unknown-unknown";
             });
 
             processed = pkgs.stdenv.mkDerivation {
@@ -139,7 +150,6 @@
               }
             '';
           };
-
 
         borrower-wasm = buildPatchedWasm {
           name = "borrower-wasm";
@@ -238,11 +248,14 @@
           };
         };
 
-        devShells.default = pkgs.mkShell {
+        devShells.default = pkgs.mkShell.override {
+          stdenv = pkgs.clangStdenv;
+        } rec {
           inputsFrom = [ firefish-core ];
 
           packages = [
-            pkgs.llvmPackages_20.bintools-unwrapped
+            pkgs.llvmPackages_21.bintools-unwrapped
+            pkgs.llvmPackages_21.clang-unwrapped
             pkgs.cargo-watch
             pkgs.cargo-expand
             pkgs.nodePackages.npm
