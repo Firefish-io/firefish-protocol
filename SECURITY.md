@@ -12,4 +12,4 @@ To ensure the confidentiality of your finding, we strongly prefer that you submi
 2.  Click the "Report a vulnerability" button.
 
 While GitHub's private reporting is the preferred method, you can also contact us for security-related matters at [security@firefish.io](mailto:security@firefish.io).
-PGP: [0013 F9D1 5486 90A8 302A  0D4D 644D 14E7 5E6E AD64](../644D14E75E6EAD64.asc)
+PGP: [0013 F9D1 5486 90A8 302A  0D4D 644D 14E7 5E6E AD64](https://github.com/Firefish-io/firefish-protocol/blob/master/644D14E75E6EAD64.asc)
