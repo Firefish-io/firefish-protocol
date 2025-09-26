@@ -3,12 +3,12 @@
 This library implements the main logic of the Firefish smart contract: creating offers, accepting offers, (pre)signing transactions and other processing logic.
 It also contains serialization code, an example CLI application and WASM bindings for the borrower.
 
-**Warning: this is old code and will be replaced!**
+The code here is deployed in production and can be verified.
+
+**Note: external contributions will be allowed in the future**
 This code is only provided for review and auditing, not for development.
 We have some changes prepared that will improve the development use case (while breaking the API of this one).
 If you're interested in development in any way don't hesitate to contact us.
-
-The code here works and is deployed. The change we're preparing is not yet deployed, so it's not here to avoid confusion.
 
 ## Requirements
 
