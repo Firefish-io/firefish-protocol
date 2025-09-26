@@ -5,7 +5,7 @@ It also contains serialization code, an example CLI application and WASM binding
 
 The code here is deployed in production and can be verified.
 
-**Note: external contributions will be allowed in the future**
+**Note: external contributions will be allowed in the future.**
 This code is only provided for review and auditing, not for development.
 We have some changes prepared that will improve the development use case (while breaking the API of this one).
 If you're interested in development in any way don't hesitate to contact us.
