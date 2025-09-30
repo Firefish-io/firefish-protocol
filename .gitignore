@@ -2,3 +2,6 @@
 /cli/target
 /result
 /.direnv
+
+# Docker build outputs
+/docker-wasm-output
