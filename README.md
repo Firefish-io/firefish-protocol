@@ -162,13 +162,9 @@ This will build the WASM module inside Docker and verify it against the publishe
 Verifiable builds require checking out the specific commit that matches the published binary. As of Oct 1 2025, that commit is `f5fa7dc26e12a400340389e46536280b200357c5`, which does not have the Docker build files yet. To verify that commit:
 
 ```bash
-# Stash Docker files and checkout to the published commit
-git reset --soft 4ac5994c63a4442a4ccfb6c3c4400a59d5cfe70d && \
-git stash && \
+cp docker-build-and-verify.sh Dockerfile.nix /tmp/ && \
 git checkout f5fa7dc26e12a400340389e46536280b200357c5 && \
-git stash pop
-
-# Run the build (~15 mins)
+cp /tmp/docker-build-and-verify.sh /tmp/Dockerfile.nix . && \
 ./docker-build-and-verify.sh
 ```
 
