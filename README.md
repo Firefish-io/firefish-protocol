@@ -145,6 +145,33 @@ The development shell includes:
 - The Rust version is pinned in `rust-toolchain.toml` for reproducibility
 - If you're using VS Code or a good editor like Emacs, install the direnv extension for seamless integration
 
+## Docker-based Build and Verification
+
+For convenience, we also provide a Docker-based build that runs Nix inside a container. This may be useful for Windows and macOS users.
+
+### Building and Verifying
+
+```bash
+./docker-build-and-verify.sh
+```
+
+This will build the WASM module inside Docker and verify it against the published binary. Build artifacts and verification results will be in `docker-wasm-output/`.
+
+### Verifying Historical Commits
+
+Verifiable builds require checking out the specific commit that matches the published binary. As of Oct 1 2025, that commit is `f5fa7dc26e12a400340389e46536280b200357c5`, which does not have the Docker build files yet. To verify that commit:
+
+```bash
+# Stash Docker files and checkout to the published commit
+git reset --soft 4ac5994c63a4442a4ccfb6c3c4400a59d5cfe70d && \
+git stash && \
+git checkout f5fa7dc26e12a400340389e46536280b200357c5 && \
+git stash pop
+
+# Run the build (~15 mins)
+./docker-build-and-verify.sh
+```
+
 ## Contributing
 
 We welcome contributions from the community! Please read our [CONTRIBUTING](/CONTRIBUTING.md) file for guidelines on how to submit bug reports, feature requests, and pull requests.

@@ -1,5 +1,6 @@
 #!/bin/bash
-# Convenience script if manual build fails
+# Docker-based build
+# See README.md for usage instructions
 
 set -e
 
