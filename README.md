@@ -107,7 +107,7 @@ will be nearly instant. If you find your `/nix` folder is too large, run `nix-co
 To verify that the published WASM binary matches the source code:
 
 ```console
-nix run .#verify-wasm
+nix run .#verify-wasm --extra-experimental-features 'nix-command flakes'
 ```
 
 This will build the WASM module locally and compare its SHA-256 hash with the one published on the website.
