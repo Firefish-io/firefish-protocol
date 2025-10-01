@@ -152,6 +152,7 @@ For convenience, we also provide a Docker-based build that runs Nix inside a con
 ### Building and Verifying
 
 ```bash
+# Note: Before checking out to an older commit, read the "Verifying Historical Commits" section
 ./docker-build-and-verify.sh
 ```
 
@@ -159,7 +160,9 @@ This will build the WASM module inside Docker and verify it against the publishe
 
 ### Verifying Historical Commits
 
-Verifiable builds require checking out the specific commit that matches the published binary. As of Oct 1 2025, that commit is `f5fa7dc26e12a400340389e46536280b200357c5`, which does not have the Docker build files yet. To verify that commit:
+Verifiable builds require checking out the specific commit that matches the published binary. As of Oct 1 2025, that commit is `f5fa7dc26e12a400340389e46536280b200357c5`, which **does not have the Docker build files yet**. 
+
+To verify that commit while **preserving the docker files**:
 
 ```bash
 cp docker-build-and-verify.sh Dockerfile.nix /tmp/ && \
