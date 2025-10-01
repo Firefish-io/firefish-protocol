@@ -1,4 +1,4 @@
-FROM nixos/nix:2.31.2 AS builder
+FROM docker.io/nixos/nix:2.31.2 AS builder
 
 WORKDIR /build
 
