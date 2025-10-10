@@ -17,7 +17,7 @@ RUN git config --global --add safe.directory /build || true
 RUN nix-shell -p nix-info --run "nix-info -m"
 
 # Build WASM in isolated environment
-RUN nix build .#borrower-wasm --extra-experimental-features 'nix-command flakes' --print-build-logs
+RUN nix build .#borrower-wasm --extra-experimental-features 'nix-command flakes' --print-build-logs --option filter-syscalls false
 
 # Copy artifacts to output directory
 RUN mkdir -p /output && \
@@ -27,7 +27,7 @@ RUN mkdir -p /output && \
 RUN sha256sum /output/*.wasm | tee /output/checksums.txt
 
 # Verify against published binary and save result
-RUN nix run .#verify-wasm --extra-experimental-features 'nix-command flakes' > /output/verification.txt 2>&1 || \
+RUN nix run .#verify-wasm --extra-experimental-features 'nix-command flakes' --option filter-syscalls false > /output/verification.txt 2>&1 || \
     echo "Verification failed or skipped (no network?)" > /output/verification.txt
 
 # Final stage: only the output artifacts (for docker build -o)
