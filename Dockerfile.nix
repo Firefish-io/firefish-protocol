@@ -13,6 +13,9 @@ COPY cli cli
 # Ensure git recognizes the directory (needed for git rev-parse in verify-wasm)
 RUN git config --global --add safe.directory /build || true
 
+# Print the info about the environment
+RUN nix-shell -p nix-info --run "nix-info -m"
+
 # Build WASM in isolated environment
 RUN nix build .#borrower-wasm --extra-experimental-features 'nix-command flakes' --print-build-logs
 
