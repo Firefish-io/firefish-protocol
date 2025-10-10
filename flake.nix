@@ -121,7 +121,9 @@
             name = "${name}-patched";
             src = ./.;
             env = {
-              GIT_COMMIT = gitCommit;
+              # FIXME: Just for testing - hardcode the remote wasm commit ID
+              #GIT_COMMIT = gitCommit;
+              GIT_COMMIT = "f5fa7dc26e12a400340389e46536280b200357c5";
             };
             buildPhase = ''
               cp ${processed}/lib/${wasmName}_bg.wasm ${wasmName}_bg.wasm
