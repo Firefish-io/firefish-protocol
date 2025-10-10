@@ -42,7 +42,9 @@ fi
 # Build and extract artifacts directly (no image saved)
 rm -rf ./docker-wasm-output
 mkdir -p ./docker-wasm-output
-docker build -f Dockerfile.nix --output type=local,dest=./docker-wasm-output .
+#docker build -f Dockerfile.nix --output type=local,dest=./docker-wasm-output .
+#podman build --platform linux/amd64 --security-opt seccomp=unconfined -f Dockerfile.nix .
+podman build --platform linux/amd64 -f Dockerfile.nix .
 
 echo ""
 echo "=========================================="
