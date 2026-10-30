@@ -242,8 +242,15 @@
                   echo "FAILURE: Hashes do not match!"
                   echo ""
                   echo "This could mean:"
-                  echo "  - The build is not reproducible"
+                  echo "  - You are not on the commit the published binary was built from"
+                  echo "  - The build is not reproducible on this platform"
                   echo "  - The binary has been tampered with"
+                  echo ""
+                  echo "Note: the published binary is built on Linux x86_64 (see"
+                  echo ".github/workflows/nix.yml). Builds on other platforms (macOS,"
+                  echo "ARM, ...) can produce a different hash from the same source."
+                  echo "If you are not on Linux x86_64, use ./docker-build-and-verify.sh"
+                  echo "instead - it builds in a pinned linux/amd64 container."
                   exit 1
                 fi
               '';

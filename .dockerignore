@@ -1,0 +1,13 @@
+# Keep the build context minimal and free of OS junk.
+# Note: .git must NOT be excluded - the build embeds the current commit.
+
+.DS_Store
+**/.DS_Store
+._*
+**/._*
+
+# Build outputs and local state
+/docker-wasm-output
+/result
+/.direnv
+**/target

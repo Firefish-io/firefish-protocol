@@ -83,7 +83,7 @@ You can build the borrower with a Nix flake. This provides deterministic builds 
 that our published binaries match the source code.
 
 ### Prerequisites
-- Linux environment
+- A Linux x86_64 environment (see "Reproducibility across platforms" below)
 - The Nix package manager
 
 Some distributions provide the nix package manager in their own distribution packages. For example, on Debian you can use `apt install nix-bin`. This method is the most secure way of installing it. If you don't mind the security implications, the following command provides a simple method of installation on distributions that don't provide packaged binaries:
@@ -111,6 +111,9 @@ nix run .#verify-wasm --extra-experimental-features 'nix-command flakes'
 ```
 
 This will build the WASM module locally and compare its SHA-256 hash with the one published on the website.
+
+If the hashes do not match and you are **not** building on Linux x86_64, this is expected — see
+"Reproducibility across platforms" below and use the Docker-based method instead.
 
 The website URL is configured in `flake.nix`. If you want, you can compare with a locally downloaded binary:
 
@@ -144,6 +147,63 @@ The development shell includes:
 - All Nix builds are release builds by default
 - The Rust version is pinned in `rust-toolchain.toml` for reproducibility
 - If you're using VS Code or a good editor like Emacs, install the direnv extension for seamless integration
+
+## Docker-based Build and Verification
+
+For convenience we provide a Docker-based build that runs Nix inside a container.
+This is the recommended way to verify the published binary on Windows and macOS,
+or on any host that is not Linux x86_64.
+
+### Reproducibility across platforms
+
+The published binary is built on Linux x86_64 (see `.github/workflows/nix.yml`).
+Nix builds are bit-reproducible *on that platform*: anyone building on Linux x86_64
+from the same commit gets the exact same bytes. Builds on other platforms (macOS,
+ARM, ...) run a toolchain built for the host and can produce a byte-different WASM
+from the same source, so a "FAILURE: Hashes do not match!" from a native macOS build
+means the build environment differs — not that the binary was tampered with.
+
+The Docker script below therefore forces `--platform linux/amd64`, so the build uses
+the same toolchain as CI and produces the same binary on every host (ARM hosts
+emulate amd64).
+
+### Building and verifying
+
+Requirements: Docker (or Podman) with permission to run containers.
+On Apple Silicon Macs, enabling "Use Rosetta for x86_64/amd64 emulation" in Docker
+Desktop significantly speeds up the build.
+
+```bash
+# Note: before checking out an older commit, read "Verifying historical commits" below.
+./docker-build-and-verify.sh
+```
+
+This builds the WASM module inside Docker (artifacts are extracted to
+`docker-wasm-output/`) and then compares its SHA-256 hash with the one published on
+the website. To compare against a locally downloaded binary instead:
+
+```bash
+./docker-build-and-verify.sh path-to-local-borrower.wasm
+```
+
+### Verifying historical commits
+
+Verifiable builds require checking out the exact commit the published binary was
+built from. Both `nix run .#verify-wasm` and `./docker-build-and-verify.sh` print
+that commit if your checkout differs from it.
+
+The Docker build files may not exist at that older commit. You can copy them over:
+they are untracked files and do not affect the build.
+
+```bash
+cp docker-build-and-verify.sh Dockerfile.nix .dockerignore /tmp/ && \
+git checkout COMMIT_FROM_THE_PREVIOUS_STEP && \
+cp /tmp/docker-build-and-verify.sh /tmp/Dockerfile.nix /tmp/.dockerignore . && \
+./docker-build-and-verify.sh
+```
+
+Do not modify any *tracked* files in this state: the build embeds the git commit,
+so a modified tree produces a different binary (the script warns about this).
 
 ## Contributing
 
